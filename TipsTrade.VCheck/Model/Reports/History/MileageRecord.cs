@@ -19,5 +19,10 @@ namespace TipsTrade.VCheck.Model.Reports.History {
     /// <summary>The source of the mileage reading.</summary>
     [JsonProperty("source")]
     public string Source { get; set; }
+
+    /// <summary>Returns a string that represents the current object.</summary>
+    public override string ToString() {
+      return $"{Mileage:N0} on {Date?.ToString("d") ?? "unknown"} from {Source}";
+    }
   }
 }

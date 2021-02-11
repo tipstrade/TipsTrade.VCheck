@@ -27,5 +27,10 @@ namespace TipsTrade.VCheck.Model.Reports {
     /// <summary>The VRM of the vehicle.</summary>
     [JsonProperty("vrm")]
     public string Vrm { get; set; }
+
+    /// <summary>Returns a string that represents the current object.</summary>
+    public override string ToString() {
+      return $"{RecordType} from {Source} from ${DateFrom?.ToString("d") ?? "unknown"} to {DateTo?.ToString("d" ?? "unknown")}";
+    }
   }
 }

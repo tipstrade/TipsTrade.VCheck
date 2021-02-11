@@ -11,5 +11,14 @@ namespace TipsTrade.VCheck.Model.Reports {
     /// <summary>A flag indicating whether the vehicle has been exported.</summary>
     [JsonProperty("is_exported")]
     public bool IsExported { get; set; }
+
+    /// <summary>Returns a string that represents the current object.</summary>
+    public override string ToString() {
+      if (IsExported) {
+        return $"Exported on ${DateExported?.ToString("d") ?? "unknown"}";
+      } else {
+        return "Not exported";
+      }
+    }
   }
 }

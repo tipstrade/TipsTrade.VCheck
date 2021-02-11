@@ -15,5 +15,10 @@ namespace TipsTrade.VCheck.Model.Reports {
     /// <summary>The type of loss that occurred.</summary>
     [JsonProperty("loss_type")]
     public string LossType { get; set; }
+
+    /// <summary>Returns a string that represents the current object.</summary>
+    public override string ToString() {
+      return $"Written off as {LossType} on ${EntryDate?.ToString("d") ?? "unknown"}";
+    }
   }
 }

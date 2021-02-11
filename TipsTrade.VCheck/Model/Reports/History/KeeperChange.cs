@@ -15,5 +15,10 @@ namespace TipsTrade.VCheck.Model.Reports.History {
     /// <summary>The date on which the vehicle was purchased.</summary>
     [JsonProperty("purchase_date")]
     public DateTime? PurchaseDate { get; set; }
+
+    /// <summary>Returns a string that represents the current object.</summary>
+    public override string ToString() {
+      return $"Keeper #{KeeperNumber} for {OwnershipLength} since {PurchaseDate?.ToString("d") ?? "unknown"}";
+    }
   }
 }

@@ -11,5 +11,14 @@ namespace TipsTrade.VCheck.Model.Reports {
     /// <summary>A flag indicating whether the vehicle has been scrapped.</summary>
     [JsonProperty("is_scrapped")]
     public bool? IsScrapped { get; set; }
+
+    /// <summary>Returns a string that represents the current object.</summary>
+    public override string ToString() {
+      if (IsScrapped == true) {
+        return $"Scrapped on {DateScrapped?.ToString("d") ?? "unknown"}";
+      } else {
+        return "Not scrapped";
+      }
+    }
   }
 }
