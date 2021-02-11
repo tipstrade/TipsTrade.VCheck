@@ -8,7 +8,7 @@ namespace TipsTrade.VCheck.Model.Reports.Technical {
     public int? Axles { get; set; }
 
     /// <summary>The number of doors on the vehicle.</summary>
-    [JsonProperty("door")]
+    [JsonProperty("doors")]
     public int? Doors { get; set; }
 
     /// <summary>The capacity of the fuel tank.</summary>
