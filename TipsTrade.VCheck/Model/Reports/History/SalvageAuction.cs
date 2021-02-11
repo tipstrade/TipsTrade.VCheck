@@ -17,8 +17,8 @@ namespace TipsTrade.VCheck.Model.Reports.History {
     public string Drive { get; set; }
 
     /// <summary>The engine capacity in CC of the vehicle.</summary>
-    [JsonProperty("engine_cc")]
-    public int EngineCC { get; set; }
+    [JsonProperty("engine")]
+    public int? Engine { get; set; }
 
     /// <summary>The fuel type of the vehicle.</summary>
     [JsonProperty("Fuel")]
