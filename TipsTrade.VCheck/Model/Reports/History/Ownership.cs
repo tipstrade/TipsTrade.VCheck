@@ -1,19 +1,15 @@
 ﻿using Newtonsoft.Json;
-using System;
+using System.Collections.Generic;
 
-namespace TipsTrade.VCheck.Model.Reports {
+namespace TipsTrade.VCheck.Model.Reports.History {
   /// <summary>A vehicle ownership record.</summary>
   public class Ownership {
-    /// <summary>The keeper number.</summary>
-    [JsonProperty("keeper_number")]
-    public int KeeperNumber { get; set; }
+    /// <summary>The list of keeper changes.</summary>
+    [JsonProperty("keeper_changes")]
+    public IEnumerable<KeeperChange> KeeperChanges { get; set; }
 
-    /// <summary>The length of time tha the keeper had the vehicle.</summary>
-    [JsonProperty("ownership_length")]
-    public string OwnershipLength { get; set; }
-
-    /// <summary>The date on which the vehicle was purchased.</summary>
-    [JsonProperty("purchase_date")]
-    public DateTime? PurchaseDate { get; set; }
+    /// <summary>The number of previous keepers.</summary>
+    [JsonProperty("previous_keepers")]
+    public int PreviousKeepers { get; set; }
   }
 }
