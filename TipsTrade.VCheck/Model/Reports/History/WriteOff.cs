@@ -18,7 +18,7 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>Returns a string that represents the current object.</summary>
     public override string ToString() {
-      return $"Written off as {LossType} on ${EntryDate?.ToString("d") ?? "unknown"}";
+      return $"Written off as {LossType} on {EntryDate?.ToString("d") ?? "unknown"}";
     }
   }
 }
