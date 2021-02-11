@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.0;net45</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>TipsTrade Ltd. - 2021</Copyright>
+    <PackageProjectUrl>https://github.com/tipstrade/TipsTrade.VCheck</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/tipstrade/TipsTrade.VCheck/blob/main/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/tipstrade/TipsTrade.VCheck</RepositoryUrl>
+    <Version>2.1.0.1</Version>
+    <AssemblyVersion>2.1.0.1</AssemblyVersion>
+    <FileVersion>2.1.0.1</FileVersion>
+    <Company>TipsTrade Ltd.</Company>
+    <Product>TipsTrade.VCheck</Product>
+    <Authors>John Bayly</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+</Project>
