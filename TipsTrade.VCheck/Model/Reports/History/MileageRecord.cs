@@ -18,6 +18,6 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The source of the mileage reading.</summary>
     [JsonProperty("source")]
-    public string Soruce { get; set; }
+    public string Source { get; set; }
   }
 }
