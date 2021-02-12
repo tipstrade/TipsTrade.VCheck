@@ -39,6 +39,13 @@ namespace Tests {
       Assert.AreEqual(vin, actual.VehicleDetails.Vin);
     }
 
+    [Test(Description = "CreateReportAsync throws for blank or null VRM.")]
+    public void CreateReportAsyncThrows() {
+      Assert.ThrowsAsync<ArgumentNullException>(() => Client.CreateReportAsync(null, CheckType.Initial));
+      Assert.ThrowsAsync<ArgumentException>(() => Client.CreateReportAsync(" ", CheckType.Initial));
+      Assert.ThrowsAsync<ArgumentException>(() => Client.CreateReportAsync("", CheckType.Initial));
+    }
+
     [Test(Description = "Endpoint throws ApiException for an invalid API key.")]
     public void EndpointInvalidApiKeyThrows() {
       Client.ApiKey = "INVALID";

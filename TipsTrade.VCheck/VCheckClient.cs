@@ -117,10 +117,16 @@ namespace TipsTrade.VCheck {
     /// <param name="vrm">The VRM of the vehicle.</param>
     /// <param name="checkType">The type of vheck to create.</param>
     public Task<Report> CreateReportAsync(string vrm, CheckType checkType) {
+      vrm = vrm?.Replace(" ", "") ?? throw new ArgumentNullException(nameof(vrm));
+
+      if (vrm == "") {
+        throw new ArgumentException(nameof(vrm), "VRM cannot be an empty string.");
+      }
+
       var request = BuildGetRequest(
         "/report/create",
         new Dictionary<string, string> {
-          {"vrm", vrm },
+          {"vrm", vrm.Replace(" ", "") },
           {"check_type", $"{(int)checkType}" }
         });
 
