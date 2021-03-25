@@ -38,7 +38,7 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The mileage reading.</summary>
     [JsonProperty("mileage")]
-    public int Mileage { get; set; }
+    public int? Mileage { get; set; }
 
     /// <summary>The model of the vehicle.</summary>
     [JsonProperty("Model")]
