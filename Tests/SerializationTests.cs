@@ -14,6 +14,11 @@ namespace Tests {
       Assert.AreEqual(expected.SelectToken(path).Value<T>(), actual);
     }
 
+    [Test(Description = "Unserializable should deserialize.")]
+    public void DeserializeUnserializableSucceeds() {
+      var actual = Mocks.GetReport("Unserializable");
+    }
+
     [Test(Description = "Report should deserialize.")]
     public void DeserializeReportSucceeds() {
       var id = Mocks.Valid.First();

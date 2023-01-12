@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
-using TipsTrade.VCheck.Model;
 using TipsTrade.VCheck.Model.Reports;
 using TipsTrade.VCheck.Model.Reports.History;
 

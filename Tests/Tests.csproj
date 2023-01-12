@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <UserSecretsId>Tests-DCCB74B1-C558-494F-BB35-FF351CA92C21</UserSecretsId>
-    <Version>2.1.0.4</Version>
+    <Version>2.2.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +24,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Mocks\LL68WWB-CT2UH52.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Mocks\Unserializable.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Mocks\YS69EKE-HOMAOS6.json">

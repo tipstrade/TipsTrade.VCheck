@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1267
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TipsTrade.VCheck", "TipsTrade.VCheck\TipsTrade.VCheck.csproj", "{7B8D61B3-C3D2-426F-89DB-174CE6253A60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TipsTrade.VCheck", "TipsTrade.VCheck\TipsTrade.VCheck.csproj", "{7B8D61B3-C3D2-426F-89DB-174CE6253A60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{83140056-D861-44A4-85B9-9A37100A27FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{83140056-D861-44A4-85B9-9A37100A27FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TipsTrade.VCheck.Model", "TipsTrade.VCheck.Model\TipsTrade.VCheck.Model.csproj", "{2BE9553E-B6F7-487F-9E3F-30430B41E3ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{83140056-D861-44A4-85B9-9A37100A27FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83140056-D861-44A4-85B9-9A37100A27FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83140056-D861-44A4-85B9-9A37100A27FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BE9553E-B6F7-487F-9E3F-30430B41E3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BE9553E-B6F7-487F-9E3F-30430B41E3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BE9553E-B6F7-487F-9E3F-30430B41E3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BE9553E-B6F7-487F-9E3F-30430B41E3ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
