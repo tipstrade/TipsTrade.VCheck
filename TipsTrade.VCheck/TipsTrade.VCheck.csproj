@@ -8,9 +8,9 @@
 		<PackageProjectUrl>https://github.com/tipstrade/TipsTrade.VCheck</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/tipstrade/TipsTrade.VCheck</RepositoryUrl>
-		<Version>2.2.0.2</Version>
-		<AssemblyVersion>2.2.0.2</AssemblyVersion>
-		<FileVersion>2.2.0.2</FileVersion>
+		<Version>2.2.0.3</Version>
+		<AssemblyVersion>2.2.0.3</AssemblyVersion>
+		<FileVersion>2.2.0.3</FileVersion>
 		<Company>TipsTrade Ltd.</Company>
 		<Product>TipsTrade.VCheck</Product>
 		<Authors>John Bayly</Authors>
