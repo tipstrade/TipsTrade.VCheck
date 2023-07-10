@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <UserSecretsId>Tests-DCCB74B1-C558-494F-BB35-FF351CA92C21</UserSecretsId>
-    <Version>2.2.0.1</Version>
+    <Version>2.2.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
