@@ -115,6 +115,7 @@ namespace TipsTrade.VCheck {
     /// <summary>Gets a report.</summary>
     /// <param name="vrm">The VRM of the vehicle.</param>
     /// <param name="checkType">The type of vheck to create.</param>
+    [Obsolete("Use the CreateReportByVinAsync or CreateReportByVrmAsync methods.")]
     public Task<Report> CreateReportAsync(string vrm, CheckType checkType) {
       vrm = vrm?.Replace(" ", "") ?? throw new ArgumentNullException(nameof(vrm));
 
@@ -128,6 +129,52 @@ namespace TipsTrade.VCheck {
           {"vrm", vrm.Replace(" ", "") },
           {"check_type", $"{(int)checkType}" }
         });
+
+      return ExecuteRequestAsync<Report>(request);
+    }
+
+    /// <summary>Gets a report.</summary>
+    /// <param name="vin">The VIN of the vehicle.</param>
+    /// <param name="checkType">The type of vheck to create.</param>
+    public Task<Report> CreateReportByVinAsync(string vin, CheckType checkType) {
+      vin = vin?.Replace(" ", "")?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(vin));
+
+      if (vin == "") {
+        throw new ArgumentException("VIN cannot be an empty string.", nameof(vin));
+      }
+
+      return CreateReportAsync(checkType, vin: vin);
+    }
+
+    /// <summary>Gets a report.</summary>
+    /// <param name="vrm">The VRM of the vehicle.</param>
+    /// <param name="checkType">The type of vheck to create.</param>
+    public Task<Report> CreateReportByVrmAsync(string vrm, CheckType checkType) {
+      vrm = vrm?.Replace(" ", "")?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(vrm));
+
+      if (vrm == "") {
+        throw new ArgumentException("VRM cannot be an empty string.", nameof(vrm));
+      }
+
+      return CreateReportAsync(checkType, vrm: vrm);
+    }
+
+    /// <summary>Gets a report.</summary>
+    /// <param name="checkType">The type of vheck to create.</param>
+    /// <param name="vrm">The VRM of the vehicle.</param>
+    /// <param name="vin">The VIN of the vehicle.</param>
+    private Task<Report> CreateReportAsync(CheckType checkType, string vrm = null, string vin = null) {
+      var args = new Dictionary<string, string> {
+        {"check_type", $"{(int)checkType}" }
+      };
+
+      if (vrm != null) {
+        args["vrm"] = vrm;
+      } else if (vin != null) {
+        args["vin"] = vin;
+      }
+
+      var request = BuildGetRequest("/report/create", args);
 
       return ExecuteRequestAsync<Report>(request);
     }

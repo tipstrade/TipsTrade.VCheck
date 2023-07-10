@@ -39,11 +39,47 @@ namespace Tests {
       Assert.AreEqual(vin, actual.VehicleDetails.Vin);
     }
 
+    [Test(Description = "CreateReportByVinAsync succeeds for valid VIN.")]
+    [Ignore("Ignored as it costs money.")]
+    public async Task CreateReportByVinAsyncSucceeds() {
+      var (vrm, vin) = Mocks.Vrms.First();
+      var actual = await Client.CreateReportByVinAsync(vin, CheckType.Initial);
+
+      Assert.NotNull(actual);
+      Assert.AreEqual(vrm, actual.VehicleDetails.Vrm);
+      Assert.AreEqual(vin, actual.VehicleDetails.Vin);
+    }
+
+    [Test(Description = "CreateReportByVrmAsync succeeds for valid VIN.")]
+    [Ignore("Ignored as it costs money.")]
+    public async Task CreateReportByVrmAsyncSucceeds() {
+      var (vrm, vin) = Mocks.Vrms.First();
+      var actual = await Client.CreateReportByVrmAsync(vrm, CheckType.Initial);
+
+      Assert.NotNull(actual);
+      Assert.AreEqual(vrm, actual.VehicleDetails.Vrm);
+      Assert.AreEqual(vin, actual.VehicleDetails.Vin);
+    }
+
     [Test(Description = "CreateReportAsync throws for blank or null VRM.")]
     public void CreateReportAsyncThrows() {
       Assert.ThrowsAsync<ArgumentNullException>(() => Client.CreateReportAsync(null, CheckType.Initial));
       Assert.ThrowsAsync<ArgumentException>(() => Client.CreateReportAsync(" ", CheckType.Initial));
       Assert.ThrowsAsync<ArgumentException>(() => Client.CreateReportAsync("", CheckType.Initial));
+    }
+
+    [Test(Description = "CreateReportByVinAsync throws for blank or null VIN.")]
+    public void CreateReportByVinAsyncThrows() {
+      Assert.ThrowsAsync<ArgumentNullException>(() => Client.CreateReportByVinAsync(null, CheckType.Initial));
+      Assert.ThrowsAsync<ArgumentException>(() => Client.CreateReportByVinAsync(" ", CheckType.Initial));
+      Assert.ThrowsAsync<ArgumentException>(() => Client.CreateReportByVinAsync("", CheckType.Initial));
+    }
+
+    [Test(Description = "CreateReportByVrmAsync throws for blank or null VRM.")]
+    public void CreateReportByVrmAsyncThrows() {
+      Assert.ThrowsAsync<ArgumentNullException>(() => Client.CreateReportByVrmAsync(null, CheckType.Initial));
+      Assert.ThrowsAsync<ArgumentException>(() => Client.CreateReportByVrmAsync(" ", CheckType.Initial));
+      Assert.ThrowsAsync<ArgumentException>(() => Client.CreateReportByVrmAsync("", CheckType.Initial));
     }
 
     [Test(Description = "Endpoint throws ApiException for an invalid API key.")]
