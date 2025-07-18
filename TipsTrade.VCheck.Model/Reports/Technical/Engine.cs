@@ -6,7 +6,7 @@ namespace TipsTrade.VCheck.Model.Reports.Technical {
   public class Engine {
     /// <summary>The type of aspiration of the engine.</summary>
     [JsonProperty("aspiration"), JsonPropertyName("aspiration")]
-    public string Aspriation { get; set; }
+    public string? Aspriation { get; set; }
 
     /// <summary>The diametre of the cylinder bore.</summary>
     [JsonProperty("bore"), JsonPropertyName("bore")]
@@ -14,15 +14,15 @@ namespace TipsTrade.VCheck.Model.Reports.Technical {
 
     /// <summary>The cylinder arrangement.</summary>
     [JsonProperty("cylinder_arrangement"), JsonPropertyName("cylinder_arrangement")]
-    public string CylinderArrangement { get; set; }
+    public string? CylinderArrangement { get; set; }
 
     /// <summary>The type of fuel delivery.</summary>
     [JsonProperty("fuel_delivery"), JsonPropertyName("fuel_delivery")]
-    public string FuelDelivery { get; set; }
+    public string? FuelDelivery { get; set; }
 
     /// <summary>The location of the engine in the vehicle.</summary>
     [JsonProperty("location"), JsonPropertyName("location")]
-    public string Location { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>The number of cylinders in the engine.</summary>
     [JsonProperty("number_of_cylinders"), JsonPropertyName("number_of_cylinders")]
@@ -34,7 +34,7 @@ namespace TipsTrade.VCheck.Model.Reports.Technical {
 
     /// <summary>The type of valve gear.</summary>
     [JsonProperty("valve_gear"), JsonPropertyName("valve_gear")]
-    public string ValveGear { get; set; }
+    public string? ValveGear { get; set; }
 
     /// <summary>The number of valves per cylinder.</summary>
     [JsonProperty("valves_per_cylinder"), JsonPropertyName("valves_per_cylinder")]

@@ -27,10 +27,10 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The VED rate.</summary>
     [JsonProperty("rate"), JsonPropertyName("rate")]
-    public VedRate Rate { get; set; }
+    public VedRate? Rate { get; set; }
 
     /// <summary>The VED tax band.</summary>
     [JsonProperty("tax_band"), JsonPropertyName("tax_band")]
-    public string TaxBand { get; set; }
+    public string? TaxBand { get; set; }
   }
 }

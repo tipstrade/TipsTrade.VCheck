@@ -14,6 +14,6 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The ULEZ rate.</summary>
     [JsonProperty("rate"), JsonPropertyName("rate")]
-    public string Rate { get; set; }
+    public string? Rate { get; set; }
   }
 }

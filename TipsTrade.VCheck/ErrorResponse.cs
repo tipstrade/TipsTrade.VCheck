@@ -5,6 +5,6 @@ namespace TipsTrade.VCheck {
   public  class ErrorResponse {
     /// <summary>The error detail.</summary>
     [JsonProperty("detail")]
-    public string Detail { get; set; }
+    public string? Detail { get; set; }
   }
 }

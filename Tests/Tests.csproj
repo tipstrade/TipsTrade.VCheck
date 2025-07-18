@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net8</TargetFramework>
     <IsPackable>false</IsPackable>
     <UserSecretsId>Tests-DCCB74B1-C558-494F-BB35-FF351CA92C21</UserSecretsId>
     <Version>2.2.0.1</Version>

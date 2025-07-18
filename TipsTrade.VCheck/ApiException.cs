@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Net;
-using TipsTrade.VCheck.Model;
 
 namespace TipsTrade.VCheck {
   /// <summary>Represents an error thrown by the <see cref="VCheckClient"/>.</summary>
   public class ApiException : Exception {
     /// <summary>The error returned by the VCheck API.</summary>
-    public ErrorResponse Error { get; internal set; }
+    public ErrorResponse? Error { get; internal set; }
 
     /// <summary>The HTTP status code returned by the VCheck API.</summary>
-    public HttpStatusCode StatusCode { get; set; }
+    public HttpStatusCode? StatusCode { get; set; }
 
     /// <summary>Initializes a new instance of the System.Exception class.</summary>
     public ApiException() {

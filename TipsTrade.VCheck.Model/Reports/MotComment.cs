@@ -10,10 +10,10 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The comment text.</summary>
     [JsonProperty("text"), JsonPropertyName("text")]
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     /// <summary>The type of comment.</summary>
     [JsonProperty("type"), JsonPropertyName("type")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
   }
 }

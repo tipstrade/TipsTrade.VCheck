@@ -2,7 +2,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace TipsTrade.VCheck.Model.Reports {
+namespace TipsTrade.VCheck.Model.Reports.History {
   /// <summary>A vehice write-off record.</summary>
   public class WriteOff {
     /// <summary>The date on which the entry was created.</summary>
@@ -15,11 +15,11 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The type of loss that occurred.</summary>
     [JsonProperty("loss_type"), JsonPropertyName("loss_type")]
-    public string LossType { get; set; }
+    public string? LossType { get; set; }
 
     /// <summary>Returns a string that represents the current object.</summary>
     public override string ToString() {
-      return $"Written off as {LossType} on {EntryDate?.ToString("d") ?? "unknown"}";
+      return $"Written off as {LossType ?? "unknown"} on {EntryDate?.ToString("d") ?? "unknown"}";
     }
   }
 }

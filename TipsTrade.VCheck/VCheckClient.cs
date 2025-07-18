@@ -68,7 +68,7 @@ namespace TipsTrade.VCheck {
     #endregion
 
     #region Methods
-    private HttpRequestMessage BuildGetRequest(string endpoint, Dictionary<string, string> queryParams) {
+    private HttpRequestMessage BuildGetRequest(string endpoint, IDictionary<string, string?> queryParams) {
       // The HttpClient and UriBuilders are an absolute pile of sh1t when it comes to querystrings
       // You either needs to include a tonne of extra packages or reinvent the wheel.
 
@@ -92,7 +92,7 @@ namespace TipsTrade.VCheck {
       var response = await Client.SendAsync(request);
 
       if (!response.IsSuccessStatusCode) {
-        ErrorResponse error = null;
+        ErrorResponse? error = null;
 
         try {
           error = JsonConvert.DeserializeObject<ErrorResponse>(await response.Content.ReadAsStringAsync());
@@ -125,7 +125,7 @@ namespace TipsTrade.VCheck {
 
       var request = BuildGetRequest(
         "/report/create",
-        new Dictionary<string, string> {
+        new Dictionary<string, string?> {
           {"vrm", vrm.Replace(" ", "") },
           {"check_type", $"{(int)checkType}" }
         });
@@ -137,7 +137,7 @@ namespace TipsTrade.VCheck {
     /// <param name="vin">The VIN of the vehicle.</param>
     /// <param name="checkType">The type of vheck to create.</param>
     public Task<Report> CreateReportByVinAsync(string vin, CheckType checkType) {
-      vin = vin?.Replace(" ", "")?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(vin));
+      vin = vin?.Replace(" ", "")?.ToUpper() ?? throw new ArgumentNullException(nameof(vin));
 
       if (vin == "") {
         throw new ArgumentException("VIN cannot be an empty string.", nameof(vin));
@@ -150,7 +150,7 @@ namespace TipsTrade.VCheck {
     /// <param name="vrm">The VRM of the vehicle.</param>
     /// <param name="checkType">The type of vheck to create.</param>
     public Task<Report> CreateReportByVrmAsync(string vrm, CheckType checkType) {
-      vrm = vrm?.Replace(" ", "")?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(vrm));
+      vrm = vrm?.Replace(" ", "")?.ToUpper() ?? throw new ArgumentNullException(nameof(vrm));
 
       if (vrm == "") {
         throw new ArgumentException("VRM cannot be an empty string.", nameof(vrm));
@@ -163,8 +163,8 @@ namespace TipsTrade.VCheck {
     /// <param name="checkType">The type of vheck to create.</param>
     /// <param name="vrm">The VRM of the vehicle.</param>
     /// <param name="vin">The VIN of the vehicle.</param>
-    private Task<Report> CreateReportAsync(CheckType checkType, string vrm = null, string vin = null) {
-      var args = new Dictionary<string, string> {
+    private Task<Report> CreateReportAsync(CheckType checkType, string? vrm = null, string? vin = null) {
+      var args = new Dictionary<string, string?> {
         {"check_type", $"{(int)checkType}" }
       };
 
@@ -190,36 +190,36 @@ namespace TipsTrade.VCheck {
     public async Task<IEnumerable<VehicleAncestory>> GetAncestoryAsync(IEnumerable<string> vrm) {
       var request = BuildGetRequest(
         "/data//data/vehicle_ancestry",
-        new Dictionary<string, string> {
+        new Dictionary<string, string?> {
           {"vrm", string.Join(",", vrm) },
         });
 
       var response = await ExecuteRequestAsync<ResponseList<VehicleAncestory>>(request);
 
-      return response.Results;
+      return response.Results ?? Enumerable.Empty<VehicleAncestory>();
     }
 
     /// <summary>Gets the salvage records for the vehicle.</summary>
     /// <param name="vrm">The VRM of the vehicle.</param>
     /// <param name="vin">The optioanal VIN of the vehicle.</param>
-    public Task<IEnumerable<SalvageAuction>> GetSalvageRecordsAsync(string vrm, string vin = null) {
+    public Task<IEnumerable<SalvageAuction>> GetSalvageRecordsAsync(string vrm, string? vin= null) {
       return GetSalvageRecordsAsync(new string[] { vrm }, vin);
     }
 
     /// <summary>Gets the salvage records for the vehicle.</summary>
     /// <param name="vrm">The list of VRMs of the vehicle.</param>
     /// <param name="vin">The optioanal VIN of the vehicle.</param>
-    public async Task<IEnumerable<SalvageAuction>> GetSalvageRecordsAsync(IEnumerable<string> vrm, string vin = null) {
+    public async Task<IEnumerable<SalvageAuction>> GetSalvageRecordsAsync(IEnumerable<string> vrm, string? vin = null) {
       var request = BuildGetRequest(
         "/data/salvage",
-        new Dictionary<string, string> {
+        new Dictionary<string, string?> {
           {"vrm", string.Join(",", vrm) },
           {"vin", vin }
         });
 
       var response = await ExecuteRequestAsync<ResponseList<SalvageAuction>>(request);
 
-      return response.Results;
+      return response.Results ?? Enumerable.Empty<SalvageAuction>();
     }
 
     /// <summary>Views an existing report.</summary>
@@ -227,7 +227,7 @@ namespace TipsTrade.VCheck {
     public Task<Report> ViewReportAsync(string reference) {
       var request = BuildGetRequest(
         "/report/view",
-        new Dictionary<string, string> {
+        new Dictionary<string, string?> {
           { "reference", reference }
         });
 

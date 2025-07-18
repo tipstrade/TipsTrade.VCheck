@@ -20,6 +20,6 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The list of MOT tests.</summary>
     [JsonProperty("tests"), JsonPropertyName("tests")]
-    public IEnumerable<MotTest> Tests { get; set; }
+    public IEnumerable<MotTest>? Tests { get; set; }
   }
 }

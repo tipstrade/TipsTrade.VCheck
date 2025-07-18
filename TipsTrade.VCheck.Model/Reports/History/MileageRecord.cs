@@ -15,11 +15,11 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The mileage reading.</summary>
     [JsonProperty("mileage"), JsonPropertyName("mileage")]
-    public int Mileage { get; set; }
+    public int? Mileage { get; set; }
 
     /// <summary>The source of the mileage reading.</summary>
     [JsonProperty("source"), JsonPropertyName("source")]
-    public string Source { get; set; }
+    public string? Source { get; set; }
 
     /// <summary>Returns a string that represents the current object.</summary>
     public override string ToString() {

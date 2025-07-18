@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
-namespace TipsTrade.VCheck.Model.Reports {
+namespace TipsTrade.VCheck.Model.Reports.History {
   /// <summary>A vehicle import status.</summary>
   public class Import {
     /// <summary>A flag indicating whether the vehicle has been imported.</summary>

@@ -11,18 +11,18 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The unique reference of the check, </summary>
     [JsonProperty("check_reference"), JsonPropertyName("check_reference")]
-    public string CheckReference { get; set; }
+    public string? CheckReference { get; set; }
 
     /// <summary>The type of check made.</summary>
     [JsonProperty("check_type"), JsonPropertyName("check_type")]
-    public string CheckType { get; set; }
+    public string? CheckType { get; set; }
 
     /// <summary>The URL at which the report can be viewed.</summary>
     [JsonProperty("url"), JsonPropertyName("url")]
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>The ID of the user that made the check.</summary>
     [JsonProperty("user"), JsonPropertyName("user")]
-    public int User { get; set; }
+    public int? User { get; set; }
   }
 }

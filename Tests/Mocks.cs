@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using TipsTrade.VCheck.Model.Reports;
@@ -19,11 +18,10 @@ namespace Tests {
     public static string GetReportJson(string id) {
       var name = Path.Combine("Mocks", $"{id}.json");
 
-      using (var fs = new FileStream(name, FileMode.Open, FileAccess.Read)) {
-        using (var reader = new StreamReader(fs)) {
-          return reader.ReadToEnd();
-        }
-      }
+      using var fs = new FileStream(name, FileMode.Open, FileAccess.Read);
+      using var reader = new StreamReader(fs);
+      
+      return reader.ReadToEnd();
     }
 
     private static T GetReport<T>(string id) where T : new() {

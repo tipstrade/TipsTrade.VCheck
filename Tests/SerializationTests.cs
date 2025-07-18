@@ -10,13 +10,15 @@ using TipsTrade.VCheck.Model.Reports;
 
 namespace Tests {
   public class SerializationTests : TestBase {
-    private void AssertAreEqual<T>(JObject expected, string path, T actual) {
+    private static void AssertAreEqual<T>(JObject expected, string path, T actual) {
       Assert.AreEqual(expected.SelectToken(path).Value<T>(), actual);
     }
 
     [Test(Description = "Unserializable should deserialize.")]
     public void DeserializeUnserializableSucceeds() {
       var actual = Mocks.GetReport("Unserializable");
+
+      Assert.NotNull(actual);
     }
 
     [Test(Description = "Report should deserialize.")]
@@ -53,11 +55,12 @@ namespace Tests {
       }
 
       foreach (var file in path.GetFiles()) {
-        using (var reader = new StreamReader(file.OpenRead())) {
-          var json = reader.ReadToEnd();
+        using var reader = new StreamReader(file.OpenRead());
+        var json = reader.ReadToEnd();
 
-          var report = JsonConvert.DeserializeObject<Report>(json);
-        }
+        var report = JsonConvert.DeserializeObject<Report>(json);
+
+        Assert.NotNull(report);
       }
     }
   }

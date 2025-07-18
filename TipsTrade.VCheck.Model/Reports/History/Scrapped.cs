@@ -2,7 +2,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace TipsTrade.VCheck.Model.Reports {
+namespace TipsTrade.VCheck.Model.Reports.History {
   /// <summary>A vehicle scrappage status.</summary>
   public class Scrapped {
     /// <summary>The date on which the vehicle was scrapped.</summary>

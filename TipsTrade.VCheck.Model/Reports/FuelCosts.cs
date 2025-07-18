@@ -7,15 +7,15 @@ namespace TipsTrade.VCheck.Model.Reports {
   public class FuelCosts {
     /// <summary>The fuel consumption values.</summary>
     [JsonProperty("fuel_consumption"), JsonPropertyName("fuel_consumption")]
-    public FuelConsumptionValues FuelConsumption { get; set; }
+    public FuelConsumptionValues? FuelConsumption { get; set; }
 
     /// <summary>The fuel prices.</summary>
     [JsonProperty("fuel_price"), JsonPropertyName("fuel_price")]
-    public Dictionary<string, float> FuelPrice { get; set; }
+    public IDictionary<string, float>? FuelPrice { get; set; }
 
     /// <summary>The estimated yearly fuel cost for a range of mileages.</summary>
     [JsonProperty("yearly_fuel_cost"), JsonPropertyName("yearly_fuel_cost")]
-    public Dictionary<int, int> YearlyFuelCost { get; set; }
+    public IDictionary<int, int>? YearlyFuelCost { get; set; }
   }
 
   /// <summary>The fuel consumption values.</summary>
@@ -33,14 +33,14 @@ namespace TipsTrade.VCheck.Model.Reports {
   public class FuelConsumptionValues {
     /// <summary>The combined fuel consumption.</summary>
     [JsonProperty("combined"), JsonPropertyName("combined")]
-    public FuelConsumption Combined { get; set; }
+    public FuelConsumption? Combined { get; set; }
 
     /// <summary>The extra-urban fuel consumption.</summary>
     [JsonProperty("extra_urban"), JsonPropertyName("extra_urban")]
-    public FuelConsumption ExtraUrban { get; set; }
+    public FuelConsumption? ExtraUrban { get; set; }
 
     /// <summary>The cold urban fuel consumption.</summary>
     [JsonProperty("urban_cold"), JsonPropertyName("urban_cold")]
-    public FuelConsumption UrbanCold { get; set; }
+    public FuelConsumption? UrbanCold { get; set; }
   }
 }

@@ -12,22 +12,22 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The list of user submitted images.</summary>
     [JsonProperty("images"), JsonPropertyName("images")]
-    public IEnumerable<string> Images { get; set; }
+    public IEnumerable<string>? Images { get; set; }
 
     /// <summary>The user submitted mileage.</summary>
     [JsonProperty("mileage"), JsonPropertyName("mileage")]
-    public string Mileage { get; set; }
+    public string? Mileage { get; set; }
 
     /// <summary>The user submitted notes.</summary>
     [JsonProperty("notes"), JsonPropertyName("notes")]
-    public string Notes { get; set; }
+    public string? Notes { get; set; }
 
     /// <summary>The VIN of the vehicle.</summary>
     [JsonProperty("vin"), JsonPropertyName("vin")]
-    public string Vin { get; set; }
+    public string? Vin { get; set; }
 
     /// <summary>The VRM of the vehicle.</summary>
     [JsonProperty("vrm"), JsonPropertyName("vrm")]
-    public string Vrm { get; set; }
+    public string? Vrm { get; set; }
   }
 }

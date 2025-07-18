@@ -2,7 +2,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace TipsTrade.VCheck.Model.Reports {
+namespace TipsTrade.VCheck.Model.Reports.History {
   /// <summary>A vehicle export status.</summary>
   public class Export {
     /// <summary>The date on which the vehicle was exported.</summary>
@@ -15,8 +15,10 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>Returns a string that represents the current object.</summary>
     public override string ToString() {
-      if (IsExported) {
-        return $"Exported on ${DateExported?.ToString("d") ?? "unknown"}";
+      if (IsExported && DateExported != null) {
+        return $"Exported on ${DateExported:d}";
+      } else if (IsExported) {
+        return "Exported";
       } else {
         return "Not exported";
       }

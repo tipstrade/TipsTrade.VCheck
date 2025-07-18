@@ -106,6 +106,7 @@ namespace Tests {
       var actual = await Client.ViewReportAsync(id);
 
       Assert.NotNull(actual);
+      Assert.AreEqual(expected, actual);
     }
 
     [Test(Description = "ViewReportAsync throws ApiException for invalid ID.")]

@@ -7,10 +7,10 @@ namespace TipsTrade.VCheck.Model.Reports.History {
   public class Ownership {
     /// <summary>The list of keeper changes.</summary>
     [JsonProperty("keeper_changes"), JsonPropertyName("keeper_changes")]
-    public IEnumerable<KeeperChange> KeeperChanges { get; set; }
+    public IEnumerable<KeeperChange>? KeeperChanges { get; set; }
 
     /// <summary>The number of previous keepers.</summary>
     [JsonProperty("previous_keepers"), JsonPropertyName("previous_keepers")]
-    public int PreviousKeepers { get; set; }
+    public int? PreviousKeepers { get; set; }
   }
 }
