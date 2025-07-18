@@ -1,15 +1,12 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.Json.Serialization;
 using TipsTrade.VCheck.Model;
 
 namespace Tests {
-  public class ModelTests : TestBase {
+  public class ModelTests {
     [Test(Description = "JSON properties match for NewtonSoft and System.Text.Json")]
     public void TestJsonPropertyNamesMatch() {
       var classTypes = typeof(IMakeModel).Assembly.GetTypes()
@@ -25,8 +22,16 @@ namespace Tests {
             continue;
           }
 
-          Assert.NotNull(stProp, $"{type.FullName}.{prop.Name} has no JsonPropertyNameAttribute.");
-          Assert.AreEqual(nsProp.PropertyName, stProp.Name, $"{type.FullName}.{prop.Name} property names are not equal.");
+          Assert.That(
+            nsProp == null, 
+            Is.EqualTo(stProp == null),
+            $"{type.FullName}.{prop.Name} has mismathed JsonProperty attributes."
+            );
+          Assert.That(
+            nsProp.PropertyName,
+            Is.EqualTo(stProp.Name),
+            $"{type.FullName}.{prop.Name} property names are not equal."
+            );
         }
       }
     }

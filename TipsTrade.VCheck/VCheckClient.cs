@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using RestSharp;
+using RestSharp.Interceptors;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.Web;
 using TipsTrade.VCheck.Model.Reports;
 using TipsTrade.VCheck.Model.Reports.History;
 
@@ -15,133 +16,67 @@ namespace TipsTrade.VCheck {
   /// </summary>
   public class VCheckClient {
     #region Fields
-    private string apiKey;
-
     /// <summary>The API version for which the <see cref="VCheckClient"/> was written.</summary>
     public static readonly string ApiVersion = "2.1";
 
-    private const string AuthorizationHeader = "authorization";
-
     private static readonly string BaseUrl = "https://api.vcheck.uk/";
-    #endregion
 
-    #region Properties
-    /// <summary>The API key used for authentication.</summary>
-    public string ApiKey {
-      get {
-        return apiKey;
-      }
-      set {
-        apiKey = value ?? throw new ArgumentNullException(nameof(value), "value cannot be null");
-
-        if (Client.DefaultRequestHeaders.Contains(AuthorizationHeader)) {
-          Client.DefaultRequestHeaders.Remove(AuthorizationHeader);
-        }
-
-        Client.DefaultRequestHeaders.Add(AuthorizationHeader, $"Token {value}");
-      }
-    }
-
-    private HttpClient Client { get; }
-
-    /// <summary>The <see cref="TimeSpan"/> to wait before requests timeout.</summary>
-    public TimeSpan Timeout {
-      get => Client.Timeout;
-      set => Client.Timeout = value;
-    }
+    private readonly RestClient restClient;
+    private readonly ILogger? logger;
     #endregion
 
     #region Constructors
     /// <summary>Creates an instance of the <see cref="VCheckClient"/> class.</summary>
-    /// <param name="apiKey">The API key used for authentication.</param>
-    public VCheckClient(string apiKey) {
-      if (apiKey == null) {
-        throw new ArgumentNullException(nameof(apiKey), "value cannot be null");
-      }
-
-      Client = new HttpClient() {
-        BaseAddress = new Uri(BaseUrl)
-      };
-
-      ApiKey = apiKey;
+    public VCheckClient(
+      ICredentialsProvider credentialsProvider,
+      HttpClient? httpClient = null,
+      ITennantProvider? tennantProvider = null,
+      ILogger? logger = null
+      ) {
+      restClient = new RestClient(
+        httpClient: httpClient ?? new HttpClient(),
+        options: new RestClientOptions {
+          BaseUrl = new Uri(BaseUrl),
+          Interceptors = new List<Interceptor> { new ApiKeyInterceptor(credentialsProvider, logger, tennantProvider) }
+        });
+      this.logger = logger;
     }
     #endregion
 
     #region Methods
-    private HttpRequestMessage BuildGetRequest(string endpoint, IDictionary<string, string?> queryParams) {
-      // The HttpClient and UriBuilders are an absolute pile of sh1t when it comes to querystrings
-      // You either needs to include a tonne of extra packages or reinvent the wheel.
+    private async Task<T?> ExecuteRequestAsync<T>(RestRequest request) where T : class {
+      var resp = await restClient.ExecuteAsync<T>(request);
 
-      var path = new System.Text.StringBuilder(BaseUrl.TrimEnd('/'));
-      path.Append("/");
-      path.Append(endpoint.TrimStart('/'));
-
-      if (queryParams?.Keys.Any() == true) {
-        path.Append("?");
-
-        path.Append(string.Join(
-          "&",
-          queryParams.Select(item => $"{item.Key}={HttpUtility.UrlEncode(item.Value)}")
-          ));
-      }
-
-      return new HttpRequestMessage(HttpMethod.Get, path.ToString());
-    }
-
-    private async Task<TResponse> ExecuteRequestAsync<TResponse>(HttpRequestMessage request) where TResponse : new() {
-      var response = await Client.SendAsync(request);
-
-      if (!response.IsSuccessStatusCode) {
+      if (!resp.IsSuccessful) {
         ErrorResponse? error = null;
 
-        try {
-          error = JsonConvert.DeserializeObject<ErrorResponse>(await response.Content.ReadAsStringAsync());
+        if (resp.Content != null) {
+          try {
+            error = JsonSerializer.Deserialize<ErrorResponse>(resp.Content);
+          } catch (Exception ex) {
+            logger?.LogError("Unable to parse ErrorResponse: {message}", ex.Message);
+          }
+        }
 
-        } catch { }
+        var message = error?.Detail ??
+          resp.ErrorMessage ??
+          resp.ErrorException?.Message ??
+          "The API returned an unexpected error.";
 
-        var message = error?.Detail ?? "The VCheck API returned an error.";
-
-        throw new ApiException(message) {
-          Error = error,
-          StatusCode = response.StatusCode
+        throw new ApiException(message, resp.ErrorException) {
+          StatusCode = resp.StatusCode,
+          Error = error
         };
       }
 
-      var content = await response.Content.ReadAsStringAsync();
-
-      return JsonConvert.DeserializeObject<TResponse>(content);
-    }
-
-    /// <summary>Gets a report.</summary>
-    /// <param name="vrm">The VRM of the vehicle.</param>
-    /// <param name="checkType">The type of vheck to create.</param>
-    [Obsolete("Use the CreateReportByVinAsync or CreateReportByVrmAsync methods.")]
-    public Task<Report> CreateReportAsync(string vrm, CheckType checkType) {
-      vrm = vrm?.Replace(" ", "") ?? throw new ArgumentNullException(nameof(vrm));
-
-      if (vrm == "") {
-        throw new ArgumentException(nameof(vrm), "VRM cannot be an empty string.");
-      }
-
-      var request = BuildGetRequest(
-        "/report/create",
-        new Dictionary<string, string?> {
-          {"vrm", vrm.Replace(" ", "") },
-          {"check_type", $"{(int)checkType}" }
-        });
-
-      return ExecuteRequestAsync<Report>(request);
+      return resp.Data;
     }
 
     /// <summary>Gets a report.</summary>
     /// <param name="vin">The VIN of the vehicle.</param>
     /// <param name="checkType">The type of vheck to create.</param>
-    public Task<Report> CreateReportByVinAsync(string vin, CheckType checkType) {
-      vin = vin?.Replace(" ", "")?.ToUpper() ?? throw new ArgumentNullException(nameof(vin));
-
-      if (vin == "") {
-        throw new ArgumentException("VIN cannot be an empty string.", nameof(vin));
-      }
+    public Task<Report?> CreateReportByVinAsync(string vin, CheckType checkType) {
+      ValidateVin(ref vin);
 
       return CreateReportAsync(checkType, vin: vin);
     }
@@ -149,12 +84,8 @@ namespace TipsTrade.VCheck {
     /// <summary>Gets a report.</summary>
     /// <param name="vrm">The VRM of the vehicle.</param>
     /// <param name="checkType">The type of vheck to create.</param>
-    public Task<Report> CreateReportByVrmAsync(string vrm, CheckType checkType) {
-      vrm = vrm?.Replace(" ", "")?.ToUpper() ?? throw new ArgumentNullException(nameof(vrm));
-
-      if (vrm == "") {
-        throw new ArgumentException("VRM cannot be an empty string.", nameof(vrm));
-      }
+    public Task<Report?> CreateReportByVrmAsync(string vrm, CheckType checkType) {
+      ValidateVrm(ref vrm);
 
       return CreateReportAsync(checkType, vrm: vrm);
     }
@@ -163,75 +94,58 @@ namespace TipsTrade.VCheck {
     /// <param name="checkType">The type of vheck to create.</param>
     /// <param name="vrm">The VRM of the vehicle.</param>
     /// <param name="vin">The VIN of the vehicle.</param>
-    private Task<Report> CreateReportAsync(CheckType checkType, string? vrm = null, string? vin = null) {
-      var args = new Dictionary<string, string?> {
-        {"check_type", $"{(int)checkType}" }
-      };
+    private Task<Report?> CreateReportAsync(CheckType checkType, string? vrm = null, string? vin = null) {
+      var request = new RestRequest("/report/create")
+         .AddQueryParameter("check_type", (int)checkType)
+         ;
 
       if (vrm != null) {
-        args["vrm"] = vrm;
+        request.AddQueryParameter("vrm", vrm);
       } else if (vin != null) {
-        args["vin"] = vin;
+        request.AddQueryParameter("vin  ", vin);
       }
 
-      var request = BuildGetRequest("/report/create", args);
-
       return ExecuteRequestAsync<Report>(request);
-    }
-
-    /// <summary>Gets the ancestory records for the vehicle.</summary>
-    /// <param name="vrm">The VRM of the vehicle.</param>
-    public Task<IEnumerable<VehicleAncestory>> GetAncestoryAsync(string vrm) {
-      return GetAncestoryAsync(new string[] { vrm });
-    }
-
-    /// <summary>Gets the ancestory records for the vehicle.</summary>
-    /// <param name="vrm">The list of VRMs of the vehicle.</param>
-    public async Task<IEnumerable<VehicleAncestory>> GetAncestoryAsync(IEnumerable<string> vrm) {
-      var request = BuildGetRequest(
-        "/data//data/vehicle_ancestry",
-        new Dictionary<string, string?> {
-          {"vrm", string.Join(",", vrm) },
-        });
-
-      var response = await ExecuteRequestAsync<ResponseList<VehicleAncestory>>(request);
-
-      return response.Results ?? Enumerable.Empty<VehicleAncestory>();
     }
 
     /// <summary>Gets the salvage records for the vehicle.</summary>
     /// <param name="vrm">The VRM of the vehicle.</param>
     /// <param name="vin">The optioanal VIN of the vehicle.</param>
-    public Task<IEnumerable<SalvageAuction>> GetSalvageRecordsAsync(string vrm, string? vin= null) {
+    public Task<IEnumerable<SalvageAuction>> GetSalvageRecordsAsync(string vrm, string? vin = null) {
       return GetSalvageRecordsAsync(new string[] { vrm }, vin);
     }
 
     /// <summary>Gets the salvage records for the vehicle.</summary>
     /// <param name="vrm">The list of VRMs of the vehicle.</param>
     /// <param name="vin">The optioanal VIN of the vehicle.</param>
-    public async Task<IEnumerable<SalvageAuction>> GetSalvageRecordsAsync(IEnumerable<string> vrm, string? vin = null) {
-      var request = BuildGetRequest(
-        "/data/salvage",
-        new Dictionary<string, string?> {
-          {"vrm", string.Join(",", vrm) },
-          {"vin", vin }
-        });
-
-      var response = await ExecuteRequestAsync<ResponseList<SalvageAuction>>(request);
-
-      return response.Results ?? Enumerable.Empty<SalvageAuction>();
+    public Task<IEnumerable<SalvageAuction>> GetSalvageRecordsAsync(IEnumerable<string> vrm, string? vin = null) {
+      throw new NotImplementedException();
     }
 
     /// <summary>Views an existing report.</summary>
     /// <param name="reference">The unique reference of the report.</param>
-    public Task<Report> ViewReportAsync(string reference) {
-      var request = BuildGetRequest(
-        "/report/view",
-        new Dictionary<string, string?> {
-          { "reference", reference }
-        });
+    public Task<Report?> ViewReportAsync(string reference) {
+      var request = new RestRequest("/report/view").AddQueryParameter("reference", reference);
 
       return ExecuteRequestAsync<Report>(request);
+    }
+    #endregion
+
+    #region Static methods
+    internal static void ValidateVin(ref string vin) {
+      vin = vin?.Replace(" ", "") ?? throw new ArgumentNullException(nameof(vin));
+
+      if (vin == "") {
+        throw new ArgumentException("VIN cannot be an empty string.", nameof(vin));
+      }
+    }
+
+    internal static void ValidateVrm(ref string vrm) {
+      vrm = vrm?.Replace(" ", "") ?? throw new ArgumentNullException(nameof(vrm));
+
+      if (vrm == "") {
+        throw new ArgumentException("VRM cannot be an empty string.", nameof(vrm));
+      }
     }
     #endregion
   }

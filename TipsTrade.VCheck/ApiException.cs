@@ -25,7 +25,7 @@ namespace TipsTrade.VCheck {
     /// </summary>
     /// <param name="message">The message that describes the error.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or a null reference.</param>
-    public ApiException(string message, Exception innerException) : base(message, innerException) {
+    public ApiException(string message, Exception? innerException) : base(message, innerException) {
     }
   }
 }
