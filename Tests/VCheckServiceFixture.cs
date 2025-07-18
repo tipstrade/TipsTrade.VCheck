@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualBasic;
 using NUnit.Framework;
 using System;
 using TipsTrade.VCheck;
@@ -20,11 +19,12 @@ namespace Tests {
 
       var services = new ServiceCollection();
 
-      services.AddSingleton<IConfiguration>(Configuration);
+      services.AddSingleton(Configuration);
 
       services.AddHttpClient();
       services.AddOptions();
       services.AddVCheckService<T>();
+      services.AddVCheckTennants<Providers.TennantProvider>();
 
       ServiceProvider = services.BuildServiceProvider();
     }

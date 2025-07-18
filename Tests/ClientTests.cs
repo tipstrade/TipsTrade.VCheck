@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Tests.Providers;
 using TipsTrade.VCheck;
 
 namespace Tests {

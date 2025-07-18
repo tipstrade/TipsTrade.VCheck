@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;
+using Tests.Providers;
 using TipsTrade.VCheck.Model.Reports;
 
 namespace Tests {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using TipsTrade.VCheck;
 
-namespace Tests {
+namespace Tests.Providers {
   public class CredentialsProvider : ICredentialsProvider {
     private readonly IConfiguration configuration;
 
