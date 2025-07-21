@@ -6,6 +6,9 @@ using TipsTrade.VCheck.Model.Reports;
 
 namespace Tests {
   public class Mocks {
+    /// <summary>The expected version.</summary>
+    public string Version { get; set; }
+
     /// <summary>A collection of VRM VIN pairs.</summary>
     public Dictionary<string, string> Vrms { get; set; }
 
@@ -20,7 +23,7 @@ namespace Tests {
 
       using var fs = new FileStream(name, FileMode.Open, FileAccess.Read);
       using var reader = new StreamReader(fs);
-      
+
       return reader.ReadToEnd();
     }
 
