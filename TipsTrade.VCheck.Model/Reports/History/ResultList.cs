@@ -12,6 +12,6 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The list of results.</summary>
     [JsonProperty("results"), JsonPropertyName("results")]
-    public IEnumerable<T> Results { get; set; }
+    public IEnumerable<T>? Results { get; set; }
   }
 }

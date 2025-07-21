@@ -66,7 +66,7 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The number of previous keepers.</summary>
     [JsonProperty("previous_keepers"), JsonPropertyName("previous_keepers")]
-    public bool PreviousKeepers { get; set; }
+    public int PreviousKeepers { get; set; }
 
     /// <summary>The number of VRM changes.</summary>
     [JsonProperty("number_plate_changes"), JsonPropertyName("number_plate_changes")]

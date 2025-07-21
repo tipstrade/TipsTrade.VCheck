@@ -8,7 +8,7 @@ namespace TipsTrade.VCheck.Model.Reports {
   public class MotTest {
     /// <summary>The list of MOT test comments.</summary>
     [JsonProperty("comments"), JsonPropertyName("comments")]
-    public IEnumerable<MotComment> Comments { get; set; }
+    public IEnumerable<MotComment>? Comments { get; set; }
 
     /// <summary>The date one which the MOT test was completed.</summary>
     [JsonProperty("completed_date"), JsonPropertyName("completed_date")]
@@ -20,15 +20,15 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The MOT test number.</summary>
     [JsonProperty("mot_test_number"), JsonPropertyName("mot_test_number")]
-    public string MotTestNumber { get; set; }
+    public string? MotTestNumber { get; set; }
 
     /// <summary>The description of the odometer reading.</summary>
     [JsonProperty("odometer_result_type"), JsonPropertyName("odometer_result_type")]
-    public string OdometerResultType { get; set; }
+    public string? OdometerResultType { get; set; }
 
     /// <summary>The distance units on the odometer.</summary>
     [JsonProperty("odometer_unit"), JsonPropertyName("odometer_unit")]
-    public string OdometerUnit { get; set; }
+    public string? OdometerUnit { get; set; }
 
     /// <summary>The value on the odometer at the time of the test.</summary>
     [JsonProperty("odometer_value"), JsonPropertyName("odometer_value")]
@@ -36,6 +36,6 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The MOT test result.</summary>
     [JsonProperty("test_result"), JsonPropertyName("test_result")]
-    public string TestResult { get; set; }
+    public string? TestResult { get; set; }
   }
 }

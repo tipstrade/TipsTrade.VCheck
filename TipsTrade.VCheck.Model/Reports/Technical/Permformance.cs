@@ -14,11 +14,11 @@ namespace TipsTrade.VCheck.Model.Reports.Technical {
 
     /// <summary>The maximum power values.</summary>
     [JsonProperty("power"), JsonPropertyName("power")]
-    public PowerValues Power { get; set; }
+    public PowerValues? Power { get; set; }
 
     /// <summary>The maximum torque values.</summary>
     [JsonProperty("torque"), JsonPropertyName("torque")]
-    public TorqueValues Torque { get; set; }
+    public TorqueValues? Torque { get; set; }
   }
 
   /// <summary>The power values.</summary>

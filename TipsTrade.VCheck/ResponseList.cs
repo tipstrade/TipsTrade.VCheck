@@ -11,6 +11,6 @@ namespace TipsTrade.VCheck {
 
     /// <summary>The list of results.</summary>
     [JsonProperty("results")]
-    public IEnumerable<T> Results { get; set; }
+    public IEnumerable<T>? Results { get; set; }
   }
 }

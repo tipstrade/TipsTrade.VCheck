@@ -15,14 +15,18 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The previous colour.</summary>
     [JsonProperty("previous_colour"), JsonPropertyName("previous_colour")]
-    public string PreviousColour { get; set; }
+    public string? PreviousColour { get; set; }
 
     /// <summary>Returns a string tha represents the current obbject.</summary>
     public override string ToString() {
-      if (PreviousColour == null && LatestChangeDate == null) {
-        return "Never";
+      if (PreviousColour != null && LatestChangeDate != null) {
+        return $"{PreviousColour} on {LatestChangeDate:d}";
+      } else if (PreviousColour != null) {
+        return PreviousColour;
+      } else if (LatestChangeDate != null) {
+        return $"on {LatestChangeDate:d}";
       } else {
-        return $"{PreviousColour} on {LatestChangeDate.Value.ToString("d") ?? "unkown"}";
+        return "Never";
       }
     }
   }

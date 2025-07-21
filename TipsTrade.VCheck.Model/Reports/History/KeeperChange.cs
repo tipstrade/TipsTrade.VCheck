@@ -7,11 +7,11 @@ namespace TipsTrade.VCheck.Model.Reports.History {
   public class KeeperChange {
     /// <summary>The keeper number.</summary>
     [JsonProperty("keeper_number"), JsonPropertyName("keeper_number")]
-    public int KeeperNumber { get; set; }
+    public int? KeeperNumber { get; set; }
 
     /// <summary>The length of time tha the keeper had the vehicle.</summary>
     [JsonProperty("ownership_length"), JsonPropertyName("ownership_length")]
-    public string OwnershipLength { get; set; }
+    public string? OwnershipLength { get; set; }
 
     /// <summary>The date on which the vehicle was purchased.</summary>
     [JsonProperty("purchase_date"), JsonPropertyName("purchase_date")]

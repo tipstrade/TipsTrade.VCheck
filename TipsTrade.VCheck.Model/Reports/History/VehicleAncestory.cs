@@ -2,7 +2,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace TipsTrade.VCheck.Model.Reports {
+namespace TipsTrade.VCheck.Model.Reports.History {
   /// <summary>A vehicle ancestory record.</summary>
   public class VehicleAncestory : IVrm {
     /// <summary>The date until which the ancestory is valid.</summary>
@@ -15,19 +15,19 @@ namespace TipsTrade.VCheck.Model.Reports {
 
     /// <summary>The description of the vehicle.</summary>
     [JsonProperty("vehicle"), JsonPropertyName("vehicle")]
-    public string Vehicle { get; set; }
+    public string? Vehicle { get; set; }
 
     /// <summary>The type of ancestory record.</summary>
     [JsonProperty("record_type"), JsonPropertyName("record_type")]
-    public string RecordType { get; set; }
+    public string? RecordType { get; set; }
 
     /// <summary>The source of the vehicle ancestory.</summary>
     [JsonProperty("source"), JsonPropertyName("source")]
-    public string Source { get; set; }
+    public string? Source { get; set; }
 
     /// <summary>The VRM of the vehicle.</summary>
     [JsonProperty("vrm"), JsonPropertyName("vrm")]
-    public string Vrm { get; set; }
+    public string? Vrm { get; set; }
 
     /// <summary>Returns a string that represents the current object.</summary>
     public override string ToString() {

@@ -7,15 +7,15 @@ namespace TipsTrade.VCheck.Model.Reports.History {
   public class SalvageAuction : IMakeModel, IVin, IVrm {
     /// <summary>The salvage category.</summary>
     [JsonProperty("category"), JsonPropertyName("category")]
-    public string Category { get; set; }
+    public string? Category { get; set; }
 
     /// <summary>The salvage description.</summary>
     [JsonProperty("description"), JsonPropertyName("description")]
-    public string Description { get; set; }
+    public  string? Description { get; set; }
 
     /// <summary>The drive type of the vehicle.</summary>
     [JsonProperty("drive"), JsonPropertyName("drive")]
-    public string Drive { get; set; }
+    public string? Drive { get; set; }
 
     /// <summary>The engine capacity in CC of the vehicle.</summary>
     [JsonProperty("engine"), JsonPropertyName("engine")]
@@ -23,7 +23,7 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The fuel type of the vehicle.</summary>
     [JsonProperty("fuel"), JsonPropertyName("fuel")]
-    public string Fuel { get; set; }
+    public string? Fuel { get; set; }
 
     /// <summary>The number of images available.</summary>
     [JsonProperty("images_count"), JsonPropertyName("images_count")]
@@ -31,11 +31,11 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The location of the salvage.</summary>
     [JsonProperty("location"), JsonPropertyName("location")]
-    public string Location { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>The make of the vehicle.</summary>
     [JsonProperty("make"), JsonPropertyName("make")]
-    public string Make { get; set; }
+    public string ? Make { get; set; }
 
     /// <summary>The mileage reading.</summary>
     [JsonProperty("mileage"), JsonPropertyName("mileage")]
@@ -43,7 +43,7 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The model of the vehicle.</summary>
     [JsonProperty("model"), JsonPropertyName("model")]
-    public string Model { get; set; }
+    public string? Model { get; set; }
 
     /// <summary>The retail value of the vehicle.</summary>
     [JsonProperty("retail_value"), JsonPropertyName("retail_value")]
@@ -55,22 +55,22 @@ namespace TipsTrade.VCheck.Model.Reports.History {
 
     /// <summary>The transmission type of the vehicle.</summary>
     [JsonProperty("transmission"), JsonPropertyName("transmission")]
-    public string Transmission { get; set; }
+    public string? Transmission { get; set; }
 
     /// <summary>The URL where the VCheck record can be viewed.</summary>
     [JsonProperty("url"), JsonPropertyName("url")]
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>The VIN of the vehicle.</summary>
     [JsonProperty("vin"), JsonPropertyName("vin")]
-    public string Vin { get; set; }
+    public string? Vin { get; set; }
 
     /// <summary>The VRM of the vehicle.</summary>
     [JsonProperty("vrm"), JsonPropertyName("vrm")]
-    public string Vrm { get; set; }
+    public string? Vrm { get; set; }
 
     /// <summary>The year of the vehicle.</summary>
     [JsonProperty("year"), JsonPropertyName("year")]
-    public int Year { get; set; }
+    public int? Year { get; set; }
   }
 }

@@ -1,29 +1,67 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
+		<TargetFrameworks>net8;net481</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Copyright>TipsTrade Ltd. - 2021-2023</Copyright>
+		<Copyright>TipsTrade Ltd. - 2021-2025</Copyright>
 		<PackageProjectUrl>https://github.com/tipstrade/TipsTrade.VCheck</PackageProjectUrl>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/tipstrade/TipsTrade.VCheck</RepositoryUrl>
-		<Version>2.2.0.3</Version>
-		<AssemblyVersion>2.2.0.3</AssemblyVersion>
-		<FileVersion>2.2.0.3</FileVersion>
+		<Version>2.3.0.0</Version>
+		<AssemblyVersion>2.3.0.0</AssemblyVersion>
+		<FileVersion>2.3.0.0</FileVersion>
 		<Company>TipsTrade Ltd.</Company>
 		<Product>TipsTrade.VCheck</Product>
 		<Authors>John Bayly</Authors>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<Title>A strongly typed library for querying VCheck.</Title>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<NoWarn>IDE0290</NoWarn>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+		<None Include="..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
-		<PackageReference Include="TipsTrade.VCheck.Model" Version="2.2.0.1" />
+		<PackageReference Include="TipsTrade.ApiClient.Core" Version="1.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.7" />
+		<PackageReference Include="RestSharp" Version="112.1.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Debug'">
+		<ProjectReference Include="..\TipsTrade.VCheck.Model\TipsTrade.VCheck.Model.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Release'">
+		<PackageReference Include="TipsTrade.VCheck.Model" Version="2.3.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
 		<Reference Include="System.Web" />
 	</ItemGroup>
+
+	<Target Name="CopyNuGetPackageToRoot" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
+		<ItemGroup>
+			<NuPkgFiles Include="$(OutputPath)\*.nupkg" />
+		</ItemGroup>
+		<Copy SourceFiles="@(NuPkgFiles)" DestinationFolder="$(SolutionDir)" />
+	</Target>
 
 </Project>
