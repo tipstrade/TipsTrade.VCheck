@@ -14,12 +14,13 @@
 		<Company>TipsTrade Ltd.</Company>
 		<Product>TipsTrade.VCheck</Product>
 		<Authors>John Bayly</Authors>
-		<LangVersion>8.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="TipsTrade.ApiClient.Core" Version="1.0.0" />
 		<PackageReference Include="TipsTrade.VCheck.Model" Version="2.2.0.1" />
 	</ItemGroup>
 
