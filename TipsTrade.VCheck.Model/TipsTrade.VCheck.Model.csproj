@@ -6,7 +6,6 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Copyright>TipsTrade Ltd. - 2021-2025</Copyright>
 		<PackageProjectUrl>https://github.com/tipstrade/TipsTrade.VCheck</PackageProjectUrl>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/tipstrade/TipsTrade.VCheck</RepositoryUrl>
 		<Version>2.2.0.1</Version>
 		<AssemblyVersion>2.2.0.1</AssemblyVersion>
@@ -14,13 +13,34 @@
 		<Company>TipsTrade Ltd.</Company>
 		<Product>TipsTrade.VCheck.Model</Product>
 		<Authors>John Bayly</Authors>
-		<LangVersion>8.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<Title>Strongly models for VCheck.</Title>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<NoWarn>IDE0290</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.Text.Json" Version="9.0.7" />
 	</ItemGroup>
+
+	<Target Name="CopyNuGetPackageToRoot" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
+		<ItemGroup>
+			<NuPkgFiles Include="$(OutputPath)\*.nupkg" />
+		</ItemGroup>
+		<Copy SourceFiles="@(NuPkgFiles)" DestinationFolder="$(SolutionDir)" />
+	</Target>
 
 </Project>

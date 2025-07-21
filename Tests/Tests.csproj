@@ -5,6 +5,16 @@
     <IsPackable>false</IsPackable>
     <UserSecretsId>Tests-DCCB74B1-C558-494F-BB35-FF351CA92C21</UserSecretsId>
     <Version>2.2.0.1</Version>
+	<LangVersion>latest</LangVersion>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>IDE0290</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>IDE0290</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

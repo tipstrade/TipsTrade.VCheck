@@ -8,8 +8,11 @@ using TipsTrade.VCheck.Model.Reports;
 
 namespace Tests {
   public class SerializationTests : VCheckFixture<DummyCredentialsProvider> {
-    private static void AssertAreEqual<T>(JObject expected, string path, T actual) {
-      Assert.That(actual, Is.EqualTo(expected.SelectToken(path).Value<T>()));
+    private static void AssertAreEqual<T>(JObject? expected, string path, T? actual) {
+      var selected = expected?.SelectToken(path);
+      T? expectedValue = selected == null ? default : selected.Value<T>();
+
+      Assert.That(actual, Is.EqualTo(expectedValue));
     }
 
     [Test(Description = "Unserializable should deserialize.")]
@@ -26,21 +29,21 @@ namespace Tests {
       var actual = Mocks.GetReport(id);
 
       Assert.That(actual, Is.Not.Null);
-      Assert.That(actual.Mot, Is.Not.Null);
-      Assert.That(actual.Ved, Is.Not.Null);
-      Assert.That(actual.VehicleDetails, Is.Not.Null);
-      Assert.That(actual.VehicleHistory, Is.Not.Null);
-      Assert.That(actual.FuelCosts, Is.Not.Null);
-      Assert.That(actual.TechnicalSpecification, Is.Not.Null);
-      Assert.That(actual.Ulez, Is.Not.Null);
-      Assert.That(actual.Summary, Is.Not.Null);
-      Assert.That(actual.CheckDetails, Is.Not.Null);
+      Assert.That(actual?.Mot, Is.Not.Null);
+      Assert.That(actual?.Ved, Is.Not.Null);
+      Assert.That(actual?.VehicleDetails, Is.Not.Null);
+      Assert.That(actual?.VehicleHistory, Is.Not.Null);
+      Assert.That(actual?.FuelCosts, Is.Not.Null);
+      Assert.That(actual?.TechnicalSpecification, Is.Not.Null);
+      Assert.That(actual?.Ulez, Is.Not.Null);
+      Assert.That(actual?.Summary, Is.Not.Null);
+      Assert.That(actual?.CheckDetails, Is.Not.Null);
 
-      AssertAreEqual(expected, "check_details.check_type", actual.CheckDetails.CheckType);
-      AssertAreEqual(expected, "check_details.check_date", actual.CheckDetails.CheckDate);
-      AssertAreEqual(expected, "check_details.check_reference", actual.CheckDetails.CheckReference);
-      AssertAreEqual(expected, "check_details.user", actual.CheckDetails.User);
-      AssertAreEqual(expected, "check_details.url", actual.CheckDetails.Url);
+      AssertAreEqual(expected, "check_details.check_type", actual?.CheckDetails?.CheckType);
+      AssertAreEqual(expected, "check_details.check_date", actual?.CheckDetails?.CheckDate);
+      AssertAreEqual(expected, "check_details.check_reference", actual?.CheckDetails?.CheckReference);
+      AssertAreEqual(expected, "check_details.user", actual?.CheckDetails?.User);
+      AssertAreEqual(expected, "check_details.url", actual?.CheckDetails?.Url);
     }
 
     [Test(Description = "All reports in the custom path should deserialize.")]

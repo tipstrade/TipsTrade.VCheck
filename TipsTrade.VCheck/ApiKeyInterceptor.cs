@@ -4,46 +4,48 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using TipsTrade.ApiClient.Core.Credential;
+using TipsTrade.ApiClient.Core.Tenant;
 
 namespace TipsTrade.VCheck {
   internal class ApiKeyInterceptor : Interceptor {
-    private readonly ICredentialsProvider credentialsProvider;
+    private readonly ICredentialProvider credentialProvider;
     private readonly ILogger? logger;
-    private readonly ITennantProvider? tennantProvider;
+    private readonly ITenantProvider? tenantProvider;
 
-    public ApiKeyInterceptor(ICredentialsProvider credentialsProvider,
+    public ApiKeyInterceptor(ICredentialProvider credentialProvider,
       ILogger? logger = null,
-      ITennantProvider? tennantProvider = null
+      ITenantProvider? tenantProvider = null
       ) {
-      this.credentialsProvider = credentialsProvider;
+      this.credentialProvider = credentialProvider;
       this.logger = logger;
-      this.tennantProvider = tennantProvider;
+      this.tenantProvider = tenantProvider;
     }
 
-    private async Task<string?> GetTennantIdAsync() {
+    private async Task<string?> GetTenantIdAsync() {
       try {
-        return await tennantProvider.GetTennantIdOrDefault();
+        return await tenantProvider.GetTenantOrDefault();
       } catch (Exception ex) {
-        logger?.LogError("Failed to get Tennant ID: {message}", ex.Message);
+        logger?.LogError("Failed to get Tenant ID: {message}", ex.Message);
       }
 
       return null;
     }
 
     private async Task<string?> GetApiKeyAsync() {
-      var tennantId = await GetTennantIdAsync();
+      var tenantId = await GetTenantIdAsync();
 
-      if (tennantId == null) {
+      if (tenantId == null) {
         return null;
       }
 
-      try {
-        return await credentialsProvider.GetApiKeyAsync(tennantId);
-      } catch (Exception ex) {
-        logger?.LogError("Failed to get credentials for Tennant {tennant}: {message}", tennantId, ex.Message);
+      var resp = await credentialProvider.TryGetCredentialAsync(tenantId);
+
+      if (!resp.IsSuccess) {
+        logger?.LogError("Failed to get credentials for Tenant {tenantId}: {message}", tenantId, resp.Message ?? resp.Exception?.Message);
       }
 
-      return null;
+      return resp.Value?.ApiKey;
     }
 
     public override async ValueTask BeforeHttpRequest(HttpRequestMessage requestMessage, CancellationToken cancellationToken) {

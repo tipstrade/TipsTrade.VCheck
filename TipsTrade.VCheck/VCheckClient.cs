@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TipsTrade.ApiClient.Core.Error;
 using TipsTrade.VCheck.Model.Reports;
 using TipsTrade.VCheck.Model.Reports.History;
 
@@ -28,16 +29,16 @@ namespace TipsTrade.VCheck {
     #region Constructors
     /// <summary>Creates an instance of the <see cref="VCheckClient"/> class.</summary>
     public VCheckClient(
-      ICredentialsProvider credentialsProvider,
+      ICredentialProvider credentialsProvider,
       HttpClient? httpClient = null,
-      ITennantProvider? tennantProvider = null,
+      ITenantProvider? tenantProvider = null,
       ILogger? logger = null
       ) {
       restClient = new RestClient(
         httpClient: httpClient ?? new HttpClient(),
         options: new RestClientOptions {
           BaseUrl = new Uri(BaseUrl),
-          Interceptors = new List<Interceptor> { new ApiKeyInterceptor(credentialsProvider, logger, tennantProvider) }
+          Interceptors = [new ApiKeyInterceptor(credentialsProvider, logger, tenantProvider)]
         });
       this.logger = logger;
     }
@@ -58,15 +59,9 @@ namespace TipsTrade.VCheck {
           }
         }
 
-        var message = error?.Detail ??
-          resp.ErrorMessage ??
-          resp.ErrorException?.Message ??
-          "The API returned an unexpected error.";
+        var message = error?.Detail ?? resp.ErrorMessage ?? resp.ErrorException?.Message;
 
-        throw new ApiException(message, resp.ErrorException) {
-          StatusCode = resp.StatusCode,
-          Error = error
-        };
+        throw ApiException.FromHttpError(resp.StatusCode, message, innerException: resp.ErrorException, error: error);
       }
 
       return resp.Data;
@@ -112,7 +107,7 @@ namespace TipsTrade.VCheck {
     /// <param name="vrm">The VRM of the vehicle.</param>
     /// <param name="vin">The optioanal VIN of the vehicle.</param>
     public Task<IEnumerable<SalvageAuction>> GetSalvageRecordsAsync(string vrm, string? vin = null) {
-      return GetSalvageRecordsAsync(new string[] { vrm }, vin);
+      return GetSalvageRecordsAsync([vrm], vin);
     }
 
     /// <summary>Gets the salvage records for the vehicle.</summary>

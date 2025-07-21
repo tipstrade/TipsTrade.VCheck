@@ -5,10 +5,10 @@ using System;
 using TipsTrade.VCheck;
 
 namespace Tests {
-  public class VCheckFixture<T> where T : class, ICredentialsProvider {
-    protected IConfiguration Configuration { get; private set; }
-    protected IServiceProvider ServiceProvider { get; private set; }
-    protected Mocks Mocks => Configuration.GetSection("Mocks").Get<Mocks>();
+  public class VCheckFixture<T> where T : class, ICredentialProvider {
+    protected IConfiguration Configuration { get; private set; } = null!;
+    protected IServiceProvider ServiceProvider { get; private set; } = null!;
+    protected Mocks Mocks => Configuration.GetSection("Mocks")?.Get<Mocks>() ?? throw new InvalidOperationException("Couldn't get Mocks section");
 
     [OneTimeSetUp]
     public void OneTimeSetUp() {
@@ -24,7 +24,7 @@ namespace Tests {
       services.AddHttpClient();
       services.AddOptions();
       services.AddVCheckService<T>();
-      services.AddVCheckTennants<Providers.TennantProvider>();
+      services.AddVCheckTenants<Providers.TenantProvider>();
 
       ServiceProvider = services.BuildServiceProvider();
     }

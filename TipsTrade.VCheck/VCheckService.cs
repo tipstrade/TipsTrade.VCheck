@@ -6,7 +6,7 @@ using System.Reflection;
 namespace TipsTrade.VCheck {
   /// <summary>Represents options for the <see cref="VCheckService"/>.</summary>
   public class VCheckServiceOptions {
-    private static string Version = $"{Assembly.GetExecutingAssembly().GetName().Version}";
+    private static readonly string Version = $"{Assembly.GetExecutingAssembly().GetName().Version}";
 
     /// <summary>The default timeout.</summary>
     public TimeSpan DefaultTimeout { get; set; } = TimeSpan.FromSeconds(15);
@@ -22,15 +22,15 @@ namespace TipsTrade.VCheck {
 
     /// <summary>Creates an instance of the <see cref="VCheckService"/> class.</summary>
     public VCheckService(
-      ICredentialsProvider credentialsProvider,
+      ICredentialProvider credentialsProvider,
       HttpClient httpClient,
-      ITennantProvider? tennantProvider = null,
+      ITenantProvider? tenantProvider = null,
       ILogger? logger = null
       ) {
       Client = new VCheckClient(
         credentialsProvider: credentialsProvider,
         httpClient: httpClient,
-        tennantProvider: tennantProvider,
+        tenantProvider: tenantProvider,
         logger: logger
         );
     }

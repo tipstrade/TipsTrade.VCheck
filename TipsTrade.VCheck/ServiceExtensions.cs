@@ -7,7 +7,7 @@ namespace TipsTrade.VCheck {
   public static class ServiceExtensions {
     /// <summary>Adds a scoped <see cref="VCheckService"/>.</summary>
     public static IServiceCollection AddVCheckService<T>(this IServiceCollection services, Action<VCheckServiceOptions>? options = null)
-      where T : class, ICredentialsProvider {
+      where T : class, ICredentialProvider {
       if (options != null) {
         services.Configure(options);
       }
@@ -20,14 +20,14 @@ namespace TipsTrade.VCheck {
         http.Timeout = options.DefaultTimeout;
       });
 
-      services.AddScoped<ICredentialsProvider, T>();
+      services.AddScoped<ICredentialProvider, T>();
 
       return services;
     }
 
-    /// <summary>Adds the scoped <see cref="ITennantProvider"/> class for providing tennant IDs.</summary>
-    public static IServiceCollection AddVCheckTennants<T>(this IServiceCollection services) where T : class, ITennantProvider {
-      return services.AddScoped<ITennantProvider, T>();
+    /// <summary>Adds the scoped <see cref="ITenantProvider"/> class for providing tenant IDs.</summary>
+    public static IServiceCollection AddVCheckTenants<T>(this IServiceCollection services) where T : class, ITenantProvider {
+      return services.AddScoped<ITenantProvider, T>();
     }
   }
 }
