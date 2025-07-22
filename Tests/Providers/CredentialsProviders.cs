@@ -14,18 +14,18 @@ namespace Tests.Providers {
       this.configuration = configuration;
     }
 
-    public Task<CredentialResponse<ApiKeyCredential>> GetCredentialAsync(string key, CancellationToken ct) {
-      var resp = new ApiKeyCredential(configuration.GetValue<string>("ApiKey") ?? throw new InvalidOperationException("ApiKey is invalid."));
+    public Task<ApiKeyCredential> GetCredentialAsync(string key, CancellationToken ct) {
+      var resp = new ApiKeyCredential(configuration.GetValue<string>("ApiKey") ?? throw new InvalidOperationException("ApiKey is unavailable."));
 
-      return Task.FromResult<CredentialResponse<ApiKeyCredential>>(resp);
+      return Task.FromResult(resp);
     }
   }
 
   public class DummyCredentialsProvider : ICredentialProvider {
-    public Task<CredentialResponse<ApiKeyCredential>> GetCredentialAsync(string key, CancellationToken ct) {
+    public Task<ApiKeyCredential> GetCredentialAsync(string key, CancellationToken ct) {
       var resp = new ApiKeyCredential("abcdef");
 
-      return Task.FromResult<CredentialResponse<ApiKeyCredential>>(resp);
+      return Task.FromResult(resp);
     }
   }
 }

@@ -22,30 +22,24 @@ namespace TipsTrade.VCheck {
       this.tenantProvider = tenantProvider;
     }
 
-    private async Task<string?> GetTenantIdAsync() {
+    private async Task<string> GetTenantIdAsync() {
       try {
-        return await tenantProvider.GetTenantOrDefault();
+        return await tenantProvider.GetTenantOrDefaultAsync();
       } catch (Exception ex) {
-        logger?.LogError("Failed to get Tenant ID: {message}", ex.Message);
+        logger?.LogError("Failed to retrieve tenant: {message}", ex.Message);
+        throw new InvalidOperationException("An error occurred retrieving the tenant.", ex);
       }
-
-      return null;
     }
 
     private async Task<string?> GetApiKeyAsync() {
       var tenantId = await GetTenantIdAsync();
 
-      if (tenantId == null) {
-        return null;
+      try {
+        return (await credentialProvider.GetCredentialAsync(tenantId)).ApiKey;
+      } catch (Exception ex) {
+        logger?.LogError("Failed to retrieve credential for Tenant={tenantId}: {message}", tenantId, ex.Message);
+        throw new InvalidOperationException("An error occurred retrieving the credential.", ex);
       }
-
-      var resp = await credentialProvider.TryGetCredentialAsync(tenantId);
-
-      if (!resp.IsSuccess) {
-        logger?.LogError("Failed to get credentials for Tenant {tenantId}: {message}", tenantId, resp.Message ?? resp.Exception?.Message);
-      }
-
-      return resp.Value?.ApiKey;
     }
 
     public override async ValueTask BeforeHttpRequest(HttpRequestMessage requestMessage, CancellationToken cancellationToken) {
