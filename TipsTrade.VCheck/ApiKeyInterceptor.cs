@@ -1,52 +1,35 @@
 ﻿using Microsoft.Extensions.Logging;
 using RestSharp.Interceptors;
-using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using TipsTrade.ApiClient.Core.Credential;
+using TipsTrade.ApiClient.Core.Logging;
 using TipsTrade.ApiClient.Core.Tenant;
 
 namespace TipsTrade.VCheck {
-  internal class ApiKeyInterceptor : Interceptor {
-    private readonly ICredentialProvider credentialProvider;
-    private readonly ILogger? logger;
-    private readonly ITenantProvider? tenantProvider;
+  internal class ApiKeyInterceptor : Interceptor, IWithLogger {
+    #region DI
+    private ICredentialProvider CredentialProvider { get; }
+    public ILogger? Logger { get; }
+    private ITenantProvider? TenantProvider { get; }
+    #endregion
 
     public ApiKeyInterceptor(ICredentialProvider credentialProvider,
       ILogger? logger = null,
       ITenantProvider? tenantProvider = null
       ) {
-      this.credentialProvider = credentialProvider;
-      this.logger = logger;
-      this.tenantProvider = tenantProvider;
-    }
-
-    private async Task<string> GetTenantIdAsync() {
-      try {
-        return await tenantProvider.GetTenantOrDefaultAsync();
-      } catch (Exception ex) {
-        logger?.LogError("Failed to retrieve tenant: {message}", ex.Message);
-        throw new InvalidOperationException("An error occurred retrieving the tenant.", ex);
-      }
-    }
-
-    private async Task<string?> GetApiKeyAsync() {
-      var tenantId = await GetTenantIdAsync();
-
-      try {
-        return (await credentialProvider.GetCredentialAsync(tenantId)).ApiKey;
-      } catch (Exception ex) {
-        logger?.LogError("Failed to retrieve credential for Tenant={tenantId}: {message}", tenantId, ex.Message);
-        throw new InvalidOperationException("An error occurred retrieving the credential.", ex);
-      }
+      CredentialProvider = credentialProvider;
+      Logger = logger;
+      TenantProvider = tenantProvider;
     }
 
     public override async ValueTask BeforeHttpRequest(HttpRequestMessage requestMessage, CancellationToken cancellationToken) {
-      var apiKey = await GetApiKeyAsync();
+      var tenantId = await TenantProvider.GetTenantOrThrowAsync(cancellationToken);
+      var apiKey = await CredentialProvider.GetCredentialOrThrowAsync(tenantId, cancellationToken);
 
       if (apiKey != null) {
-        requestMessage.Headers.Add("Authorization", $"Token {apiKey}");
+        requestMessage.Headers.Add("Authorization", $"Token {apiKey.ApiKey}");
       }
 
       await base.BeforeHttpRequest(requestMessage, cancellationToken);

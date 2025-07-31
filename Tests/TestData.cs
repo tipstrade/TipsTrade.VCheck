@@ -5,7 +5,17 @@ using System.IO;
 using TipsTrade.VCheck.Model.Reports;
 
 namespace Tests {
-  public class Mocks {
+  public class TestData {
+    public const string Null = null!;
+
+    public const string Empty = "";
+
+    public const string Whitespace = "    ";
+
+    public const string InvalidVin = "00000000000000000";
+
+    public const string InvalidVrm = "AAAAA";
+
     /// <summary>The expected version.</summary>
     public string Version { get; set; } = "";
 

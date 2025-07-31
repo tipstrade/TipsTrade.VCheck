@@ -20,10 +20,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.7" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="nunit" Version="4.3.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageReference Include="TipsTrade.ApiClient.Testing" Version="1.0.0" />
+    <PackageReference Include="TipsTrade.ApiClient.Testing" Version="1.0.0.1" />
   </ItemGroup>
 
   <ItemGroup>

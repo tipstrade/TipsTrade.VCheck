@@ -1,13 +1,26 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using System;
 using System.IO;
 using System.Linq;
-using Tests.Providers;
 using TipsTrade.VCheck.Model.Reports;
 
 namespace Tests {
-  public class SerializationTests : VCheckFixture<DummyCredentialsProvider> {
+  public class SerializationTests {
+    private IConfiguration Configuration { get; set; }
+    private TestData TestData { get; set; }
+
+    [OneTimeSetUp]
+    public void OneTimeSetUp() {
+      Configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .Build();
+
+      TestData = Configuration.GetSection("TestData").Get<TestData>() ?? throw new InvalidOperationException("No TestData available");
+    }
+
     private static void AssertAreEqual<T>(JObject? expected, string path, T? actual) {
       var selected = expected?.SelectToken(path);
       T? expectedValue = selected == null ? default : selected.Value<T>();
@@ -17,16 +30,16 @@ namespace Tests {
 
     [Test(Description = "Unserializable should deserialize.")]
     public void DeserializeUnserializableSucceeds() {
-      var actual = Mocks.GetReport("Unserializable");
+      var actual = TestData.GetReport("Unserializable");
 
       Assert.That(actual, Is.Not.Null);
     }
 
     [Test(Description = "Report should deserialize.")]
     public void DeserializeReportSucceeds() {
-      var id = Mocks.Valid.First();
-      var expected = Mocks.GetReportObject(id);
-      var actual = Mocks.GetReport(id);
+      var id = TestData.Valid.First();
+      var expected = TestData.GetReportObject(id);
+      var actual = TestData.GetReport(id);
 
       Assert.That(actual, Is.Not.Null);
       Assert.That(actual?.Mot, Is.Not.Null);
