@@ -203,7 +203,7 @@
     "is_import": false,
     "is_export": false,
     "is_scrapped": false,
-    "previous_keepers": 1,
+    "previous_keepers": true,
     "is_ulez_payable": false,
     "has_technical_specification": true,
     "has_fuel_running_costs": true,

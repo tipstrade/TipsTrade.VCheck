@@ -33,6 +33,9 @@ namespace Tests {
       var actual = TestData.GetReport("Unserializable");
 
       Assert.That(actual, Is.Not.Null);
+
+      // Previous keepers used to be a boolean, but now is an int. This test ensures that the converter correctly converts the boolean value to an int.
+      Assert.That(actual?.Summary?.PreviousKeepers, Is.EqualTo(1));
     }
 
     [Test(Description = "Report should deserialize.")]

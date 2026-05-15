@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Text.Json.Serialization;
+using TipsTrade.VCheck.Model.Converters;
 
 namespace TipsTrade.VCheck.Model.Reports {
   /// <summary>The vehicle summary.</summary>
@@ -65,7 +66,14 @@ namespace TipsTrade.VCheck.Model.Reports {
     public bool IsVedValid { get; set; }
 
     /// <summary>The number of previous keepers.</summary>
+    /// <remarks>
+    /// Due to backwards compatibility reasons, this field can be either a boolean or an integer.
+    /// A boolean value will be deserialized as 1 for true and 0 for false, while an integer value will be deserialized as is.
+    /// It will always be serialized as an integer, so when serializing, the converter will write the integer value to the JSON.
+    /// </remarks>
     [JsonProperty("previous_keepers"), JsonPropertyName("previous_keepers")]
+    [Newtonsoft.Json.JsonConverter(typeof(NsBoolOrIntToIntConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(StJBoolOrIntToIntConverter))]
     public int PreviousKeepers { get; set; }
 
     /// <summary>The number of VRM changes.</summary>
