@@ -4,15 +4,9 @@
 		<TargetFrameworks>net8;net481</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Copyright>TipsTrade Ltd. - 2021-2025</Copyright>
 		<PackageProjectUrl>https://github.com/tipstrade/TipsTrade.VCheck</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/tipstrade/TipsTrade.VCheck</RepositoryUrl>
-		<Version>2.4.0.0</Version>
-		<AssemblyVersion>2.4.0.0</AssemblyVersion>
-		<FileVersion>2.4.0.0</FileVersion>
-		<Company>TipsTrade Ltd.</Company>
 		<Product>TipsTrade.VCheck.Model</Product>
-		<Authors>John Bayly</Authors>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<RepositoryType>git</RepositoryType>

@@ -1,0 +1,8 @@
+<Project>
+	<PropertyGroup>
+		<Authors>John Bayly</Authors>
+		<Company>TipsTrade Ltd.</Company>
+		<Copyright>TipsTrade Ltd. 2021-2026</Copyright>
+		<Version>2.4.0.1</Version>
+	</PropertyGroup>
+</Project>
